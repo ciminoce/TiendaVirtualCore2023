@@ -1,0 +1,32 @@
+﻿@using TiendaVirtualCore.Web.ViewModels.Pais;
+@model PaisEditVm
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<form method="post" asp-controller="Pais" asp-action="Edit">
+    <input type="hidden" asp-for="PaisId"/>
+    <input type="hidden" asp-for="RowVersion" />
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h2 class="text-primary">Editar País</h2>
+        </div>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="mb-3">
+            <label asp-for="NombrePais"></label>
+            <input asp-for="NombrePais" class="form-control" />
+            <span asp-validation-for="NombrePais" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:150px">
+            Guardar
+        </button>
+        <a asp-controller="Pais" asp-action="Index" style="width:150px" class="btn btn-success">
+            Volver
+        </a>
+    </div>
+</form>
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}

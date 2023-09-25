@@ -1,0 +1,29 @@
+﻿@using TiendaVirtualCore.Web.ViewModels.Categoria;
+@model CategoriaEditVm
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<form method="post"  asp-controller="Categoria" asp-action="Delete">
+    <input type="hidden" asp-for="CategoriaId" />
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h2 class="text-primary">Borrar Categoría</h2>
+        </div>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="mb-3">
+            <label asp-for="NombreCategoria"></label>
+            <input asp-for="NombreCategoria" class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label asp-for="Descripcion"></label>
+            <textarea asp-for="Descripcion" rows="4" class="form-control"></textarea>
+
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:150px">
+            Borrar
+            </button>
+        <a asp-controller="Categoria" asp-action="Index" style="width:150px" class="btn btn-success">
+            Volver</a>
+    </div>
+</form>

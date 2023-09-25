@@ -1,0 +1,67 @@
+﻿@using TiendaVirtualCore.Web.ViewModels.Pais;
+@model IEnumerable<PaisListVm>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="container mt-3">
+    <div class="row w-75 mt-4">
+        <div class="col-6">
+            <h2>Lista de Países</h2>
+        </div>
+        <div class="col-6 text-end">
+            <a class="btn btn-primary" asp-action="Create" asp-asp-controller="Pais">
+                <i class="bi bi-plus-circle"></i> &nbsp;
+                Nuevo País
+            </a>
+        </div>
+    </div>
+    <table class="table table-bordered table-striped w-75">
+        <thead>
+            <tr>
+                <th>
+                    <label asp-for="@Model.First().NombrePais"></label>
+                </th>
+
+                <th>
+                    Acciones
+                </th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Any())
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="w-75">
+                            @item.NombrePais
+                        </td>
+                        <td class="w-25">
+                            <a class="btn btn-warning" asp-action="Edit" asp-controller="Pais" asp-route-paisId="@item.PaisId">
+                                <i class="bi bi-pencil-fill"></i> &nbsp;
+                                Editar
+                            </a>
+                            <a class="btn btn-danger" asp-action="Delete" asp-controller="Pais" asp-route-paisId="@item.PaisId">
+                                <i class="bi bi-trash"></i> &nbsp;
+                                Borrar
+                            </a>
+
+                        </td>
+                    </tr>
+
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="2" class="text-danger text-center">
+                        No se han agregado países todavía
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

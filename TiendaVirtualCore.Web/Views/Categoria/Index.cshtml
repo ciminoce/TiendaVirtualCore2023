@@ -1,0 +1,66 @@
+﻿@using TiendaVirtualCore.Web.ViewModels.Categoria;
+@model IEnumerable<CategoriaListVm>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="container mt-3">
+    <div class="row w-75 mt-4">
+        <div class="col-6">
+            <h2>Lista de Categorías</h2>
+        </div>
+        <div class="col-6 text-end">
+            <a class="btn btn-primary" asp-action="Create" asp-asp-controller="Categoria">
+                <i class="bi bi-plus-circle"></i> &nbsp;
+                Nueva Categoría
+            </a>
+        </div>
+    </div>
+    <table class="table table-bordered table-striped w-75">
+        <thead>
+            <tr>
+                <th >
+                    <label asp-for="@Model.First().NombreCategoria"></label>
+                </th>
+
+                <th>
+                    Acciones
+                </th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Any())
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="w-75">
+                            @item.NombreCategoria
+                        </td>
+                        <td class="w-25">
+                            <a class="btn btn-warning" asp-action="Edit" asp-controller="Categoria" asp-route-categoriaId="@item.CategoriaId">
+                                <i class="bi bi-pencil-fill"></i> &nbsp;
+                                Editar
+                            </a>
+                            <a class="btn btn-danger" asp-action="Delete" asp-controller="Categoria" asp-route-categoriaId="@item.CategoriaId">
+                                <i class="bi bi-trash"></i> &nbsp;
+                                Borrar
+                            </a>
+
+                        </td>
+                    </tr>
+
+                }
+            }else
+            {
+                <tr>
+                    <td colspan="2" class="text-danger text-center">
+                        No se han agregado categorías todavía
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
