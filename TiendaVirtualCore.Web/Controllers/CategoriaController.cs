@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using TiendaVirtualCore.Entities.Models;
 using TiendaVirtualCore.Servicios.Interfaces;
 using TiendaVirtualCore.Web.ViewModels.Categoria;
-using TiendaVirtualCore.Web.ViewModels.Pais;
 
 namespace TiendaVirtualCore.Web.Controllers
 {
@@ -22,15 +21,16 @@ namespace TiendaVirtualCore.Web.Controllers
 
         public IActionResult Index()
         {
-            var listaCategorias=_servicio.GetCategorias();
+            var listaCategorias = _servicio.GetCategorias();
             var listaCategoriasVm = _mapper.Map<List<CategoriaListVm>>(listaCategorias);
             return View(listaCategoriasVm);
         }
 
         [HttpGet]
-        public IActionResult Create() {
+        public IActionResult Create()
+        {
 
-            CategoriaEditVm categoriaVm=new CategoriaEditVm();
+            CategoriaEditVm categoriaVm = new CategoriaEditVm();
             categoriaVm.RowVersion = new byte[] { };
             return View();
         }
@@ -68,7 +68,7 @@ namespace TiendaVirtualCore.Web.Controllers
         [HttpGet]
         public IActionResult Edit(int? categoriaId)
         {
-            if (categoriaId == null|| categoriaId == 0)
+            if (categoriaId == null || categoriaId == 0)
             {
                 return NotFound();
             }
@@ -77,7 +77,7 @@ namespace TiendaVirtualCore.Web.Controllers
             {
                 return NotFound();
             }
-            CategoriaEditVm categoriaVm=_mapper.Map<CategoriaEditVm>(categoria);
+            CategoriaEditVm categoriaVm = _mapper.Map<CategoriaEditVm>(categoria);
             return View(categoriaVm);
         }
         [HttpPost]
@@ -165,7 +165,7 @@ namespace TiendaVirtualCore.Web.Controllers
             CategoriaEditVm categoriaVm = _mapper.Map<CategoriaEditVm>(categoria);
             return View(categoriaVm);
         }
-        [HttpPost,ActionName("Delete")]
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public IActionResult Delete(int categoriaId)
         {

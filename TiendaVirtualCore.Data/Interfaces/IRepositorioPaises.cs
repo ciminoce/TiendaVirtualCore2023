@@ -1,4 +1,5 @@
-﻿using TiendaVirtualCore.Entities.Dtos.Pais;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using TiendaVirtualCore.Entities.Dtos.Pais;
 using TiendaVirtualCore.Entities.Models;
 
 namespace TiendaVirtualCore.Data.Interfaces
@@ -13,5 +14,6 @@ namespace TiendaVirtualCore.Data.Interfaces
         Pais GetPaisPorId(int paisId);
         bool EstaRelacionado(Pais pais);
         int GetCantidad();
+        List<SelectListItem> GetPaisesDropDown();
     }
 }

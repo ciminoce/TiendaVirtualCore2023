@@ -1,4 +1,5 @@
-﻿using TiendaVirtualCore.Data;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using TiendaVirtualCore.Data;
 using TiendaVirtualCore.Data.Interfaces;
 using TiendaVirtualCore.Entities.Dtos.Pais;
 using TiendaVirtualCore.Entities.Models;
@@ -76,6 +77,19 @@ namespace TiendaVirtualCore.Servicios.Servicios
             try
             {
                 return _repositorio.GetPaises();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public List<SelectListItem> GetPaisesDropDown()
+        {
+            try
+            {
+                return _repositorio.GetPaisesDropDown();
             }
             catch (Exception)
             {

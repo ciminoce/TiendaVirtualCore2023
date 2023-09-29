@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using TiendaVirtualCore.Data.Interfaces;
 using TiendaVirtualCore.Entities.Dtos.Pais;
 using TiendaVirtualCore.Entities.Models;
@@ -57,7 +58,7 @@ namespace TiendaVirtualCore.Data.Repositorios
 
         public bool EstaRelacionado(Pais pais)
         {
-            return false;
+            return _context.Ciudades.Any(c=>c.PaisId==pais.PaisId);
         }
 
         public bool Existe(Pais pais)
@@ -89,6 +90,16 @@ namespace TiendaVirtualCore.Data.Repositorios
                 })
                 .ToList();
 
+        }
+
+        public List<SelectListItem> GetPaisesDropDown()
+        {
+            return _context.Paises.OrderBy(p=>p.NombrePais)
+                .Select(p => new SelectListItem
+                {
+                    Text = p.NombrePais,
+                    Value = p.PaisId.ToString()
+                }).ToList();
         }
 
         public Pais GetPaisPorId(int paisId)

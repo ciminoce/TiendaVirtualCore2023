@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using TiendaVirtualCore.Entities.Models;
 using TiendaVirtualCore.Servicios.Interfaces;
 using TiendaVirtualCore.Web.ViewModels.Pais;
@@ -96,58 +95,17 @@ namespace TiendaVirtualCore.Web.Controllers
             }
             try
             {
-                // Obtén la categoría actualizada de la base de datos
-                var paisEnBaseDeDatos = _servicio.GetPaisPorId(paisVm.PaisId);
+                _servicio.Guardar(pais);
+                TempData["success"] = "Registro agregado!!!";
+                return RedirectToAction("Index");
 
-                // Verifica si las versiones coinciden
-                if (paisEnBaseDeDatos.RowVersion.SequenceEqual(paisVm.RowVersion))
-                {
-                    // Las versiones coinciden, puedes actualizar la categoría
-                    _servicio.Guardar(pais);
-                    TempData["success"] = "Registro agregado!!!";
-                    return RedirectToAction("Index");
-                }
-                else
-                {
-                    // Alguien más ha modificado la categoría, maneja la concurrencia aquí
-                    ModelState.AddModelError(string.Empty, "La categoría ha sido modificada por otro usuario.");
-                    return View(paisVm);
-                }
             }
-            catch (DbUpdateConcurrencyException ex)
+            catch (Exception ex)
             {
-                // Accede a la InnerException para obtener detalles específicos sobre el error
-                var innerException = ex.InnerException;
-
-                // Ahora puedes registrar o manejar la excepción de manera adecuada
-                // Puedes usar algún método de registro como Serilog, NLog o simplemente Console.WriteLine
-                Console.WriteLine($"Excepción: {ex.Message}");
-
-                // Puedes registrar los detalles de la InnerException también
-                if (innerException != null)
-                {
-                    Console.WriteLine($"InnerException: {innerException.Message}");
-                }
 
                 TempData["error"] = "Ha ocurrido un error al guardar los cambios.";
                 return View(paisVm);
-                ModelState.AddModelError(string.Empty, "Error de concurrencia");
-                return View(paisVm);
-
-                // Manejar la excepción de concurrencia aquí si es necesario
             }
-            //try
-            //{
-            //    _servicio.Guardar(pais);
-            //    TempData["success"] = "Registro agregado!!!";
-            //    return RedirectToAction("Index");
-            //}
-            //catch (Exception ex)
-            //{
-
-            //    TempData["error"] = ex.Message;
-            //    return View(paisVm);
-            //}
         }
 
         [HttpGet]
@@ -174,7 +132,12 @@ namespace TiendaVirtualCore.Web.Controllers
             {
                 return NotFound();
             }
-
+            if (_servicio.EstaRelacionado(pais))
+            {
+                ModelState.AddModelError(string.Empty, "País relacionado!!!");
+                PaisEditVm paisVm = _mapper.Map<PaisEditVm>(pais);
+                return View(paisVm);
+            }
             try
             {
                 _servicio.Borrar(pais.PaisId);

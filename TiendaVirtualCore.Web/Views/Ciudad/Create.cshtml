@@ -1,0 +1,40 @@
+﻿@using TiendaVirtualCore.Web.ViewModels.Ciudad;
+@model CiudadEditVm
+@{
+    ViewData["Title"] = "Create";
+}
+
+<form method="post" asp-controller="Ciudad" asp-action="Create">
+    <input type="hidden" asp-for="RowVersion" />
+
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h2 class="text-primary">Nueva Ciudad</h2>
+        </div>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="mb-3">
+            <label asp-for="NombreCiudad"></label>
+            <input asp-for="NombreCiudad" class="form-control" />
+            <span asp-validation-for="NombreCiudad" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="PaisId"></label>
+            <select asp-for="PaisId" asp-items="@Model.Paises"   class="form-select">
+                <option disabled selected>-- Seleccionar País --</option>
+
+            </select>
+            <span asp-validation-for="PaisId" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:150px">
+            Guardar
+        </button>
+        <a asp-controller="Ciudad" asp-action="Index" style="width:150px" class="btn btn-success">
+            Volver
+        </a>
+    </div>
+</form>
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}
