@@ -1,28 +1,28 @@
-﻿using TiendaVirtualCore.Data;
-using TiendaVirtualCore.Data.Interfaces;
-using TiendaVirtualCore.Entities.Dtos.Ciudad;
+﻿using TiendaVirtualCore.Data.Interfaces;
+using TiendaVirtualCore.Data;
+using TiendaVirtualCore.Entities.Dtos.Producto;
 using TiendaVirtualCore.Entities.Models;
 using TiendaVirtualCore.Servicios.Interfaces;
 
 namespace TiendaVirtualCore.Servicios.Servicios
 {
-    public class ServiciosCiudades : IServiciosCiudades
+    public class ServiciosProductos : IServiciosProductos
     {
-        private readonly IRepositorioCiudades _repitorioCiudades;
+        private readonly IRepositorioProductos _repitorioProductos;
         private readonly IUnitOfWork _unitOfWork;
 
 
-        public ServiciosCiudades(IRepositorioCiudades repitorioCiudades, IUnitOfWork unitOfWork)
+        public ServiciosProductos(IRepositorioProductos repitorioProductos, IUnitOfWork unitOfWork)
         {
-            _repitorioCiudades = repitorioCiudades;
+            _repitorioProductos = repitorioProductos;
             _unitOfWork = unitOfWork;
         }
 
-        public void Borrar(int ciudadId)
+        public void Borrar(int productoId)
         {
             try
             {
-                _repitorioCiudades.Borrar(ciudadId);
+                _repitorioProductos.Borrar(productoId);
                 _unitOfWork.SaveChanges();
             }
             catch (Exception)
@@ -32,11 +32,11 @@ namespace TiendaVirtualCore.Servicios.Servicios
             }
         }
 
-        public bool EstaRelacionada(Ciudad ciudad)
+        public bool EstaRelacionada(Producto producto)
         {
             try
             {
-                return _repitorioCiudades.EstaRelacionado(ciudad);
+                return _repitorioProductos.EstaRelacionado(producto);
             }
             catch (Exception)
             {
@@ -45,11 +45,11 @@ namespace TiendaVirtualCore.Servicios.Servicios
             }
         }
 
-        public bool Existe(Ciudad ciudad)
+        public bool Existe(Producto producto)
         {
             try
             {
-                return _repitorioCiudades.Existe(ciudad);
+                return _repitorioProductos.Existe(producto);
             }
             catch (Exception)
             {
@@ -58,11 +58,11 @@ namespace TiendaVirtualCore.Servicios.Servicios
             }
         }
 
-        public List<CiudadListDto> GetCiudades()
+        public List<ProductoListDto> GetProductos()
         {
             try
             {
-                return _repitorioCiudades.GetCiudades();
+                return _repitorioProductos.GetProductos();
             }
             catch (Exception)
             {
@@ -71,11 +71,11 @@ namespace TiendaVirtualCore.Servicios.Servicios
             }
         }
 
-        public Ciudad GetCiudadPorId(int ciudadId)
+        public Producto GetProductoPorId(int productoId)
         {
             try
             {
-                return _repitorioCiudades.GetCiudadPorId(ciudadId);
+                return _repitorioProductos.GetProductoPorId(productoId);
             }
             catch (Exception)
             {
@@ -85,18 +85,18 @@ namespace TiendaVirtualCore.Servicios.Servicios
         }
 
 
-        public void Guardar(Ciudad ciudad)
+        public void Guardar(Producto producto)
         {
             try
             {
-                if (ciudad.CiudadId == 0)
+                if (producto.ProductoId == 0)
                 {
-                    _repitorioCiudades.Agregar(ciudad);
+                    _repitorioProductos.Agregar(producto);
 
                 }
                 else
                 {
-                    _repitorioCiudades.Editar(ciudad);
+                    _repitorioProductos.Editar(producto);
                 }
                 _unitOfWork.SaveChanges();
 
@@ -114,7 +114,7 @@ namespace TiendaVirtualCore.Servicios.Servicios
         {
             try
             {
-                return _repitorioCiudades.GetCantidad();
+                return _repitorioProductos.GetCantidad();
             }
             catch (Exception)
             {
@@ -123,11 +123,11 @@ namespace TiendaVirtualCore.Servicios.Servicios
             }
         }
 
-        public bool EstaRelacionado(Ciudad ciudad)
+        public bool EstaRelacionado(Producto producto)
         {
             try
             {
-                return _repitorioCiudades.EstaRelacionado(ciudad);
+                return _repitorioProductos.EstaRelacionado(producto);
             }
             catch (Exception)
             {
