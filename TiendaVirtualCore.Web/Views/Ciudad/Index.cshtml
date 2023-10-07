@@ -1,5 +1,5 @@
 ﻿@using TiendaVirtualCore.Web.ViewModels.Ciudad;
-@model IEnumerable<CiudadListVm>
+@model CiudadSortListVm
 
 @{
     ViewData["Title"] = "Index";
@@ -17,14 +17,29 @@
             </a>
         </div>
     </div>
+    <form method="get">
+        <div class="row">
+            <div class="col-auto">
+                <label>Ordenar:</label>
+            </div>
+            <div class="col-auto">
+                @Html.DropDownListFor(model=>Model.SortBy, new SelectList(Model.Sorts, "Value", "Key"), "Seleccione Orden",new {@class="form-select"})
+            </div>
+            <div class="col-auto">
+                <input type="submit" name="SortBy" value="Aplicar" class="btn btn-secondary" />
+            </div>
+        </div>
+
+    </form>
+
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
                 <th>
-                    <label asp-for="@Model.First().NombreCiudad"></label>
+                    <label asp-for="@Model.Ciudades.First().NombreCiudad"></label>
                 </th>
                 <th>
-                    <label asp-for="@Model.First().NombrePais"></label>
+                    <label asp-for="@Model.Ciudades.First().NombrePais"></label>
                 </th>
                 <th>
                     Acciones
@@ -33,9 +48,9 @@
             </tr>
         </thead>
         <tbody>
-            @if (Model.Any())
+            @if (Model.Ciudades.Any())
             {
-                foreach (var item in Model)
+                foreach (var item in Model.Ciudades)
                 {
                     <tr>
                         <td>

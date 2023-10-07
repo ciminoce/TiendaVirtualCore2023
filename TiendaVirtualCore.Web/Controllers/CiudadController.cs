@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using System.Globalization;
 using TiendaVirtualCore.Entities.Models;
 using TiendaVirtualCore.Servicios.Interfaces;
 using TiendaVirtualCore.Web.ViewModels.Ciudad;
@@ -22,13 +23,32 @@ namespace TiendaVirtualCore.Web.Controllers
             _mapper = mapper;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string SortBy="Ciudad")
         {
             var listaCiudades = _servicio.GetCiudades();
             var listaCiudadesVm=_mapper
                 .Map<List<CiudadListVm>>(listaCiudades);
+            if (SortBy == "Ciudad")
+            {
+                listaCiudadesVm = listaCiudadesVm.OrderBy(c => c.NombreCiudad).ToList();
+            }
+            else
+            {
+                listaCiudadesVm = listaCiudadesVm.OrderBy(c => c.NombrePais)
+                    .ThenBy(c => c.NombreCiudad).ToList();
+            }
+            var ciudadVm = new CiudadSortListVm
+            {
+                Ciudades = listaCiudadesVm,
+                Sorts = new Dictionary<string, string> {
+                    {"Por Ciudad","Ciudad" },
+                    {"Por Pais","Pais" }
+                },
+                SortBy = SortBy
+            };
+            return View(ciudadVm);
 
-            return View(listaCiudadesVm);
+
         }
 
         [HttpGet]

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using TiendaVirtualCore.Entities.Models;
 using TiendaVirtualCore.Servicios.Interfaces;
 using TiendaVirtualCore.Web.ViewModels.Pais;
+using X.PagedList;
 
 namespace TiendaVirtualCore.Web.Controllers
 {
@@ -18,11 +19,14 @@ namespace TiendaVirtualCore.Web.Controllers
             _mapper = mapper;
         }
 
-        public IActionResult Index()
+        public ActionResult Index(int? page, int? pageSize)
         {
-            var listaPaises = _servicio.GetPaises();
-            var listaPaisesVm = _mapper.Map<List<PaisListVm>>(listaPaises);
-            return View(listaPaisesVm);
+            var lista = _servicio.GetPaises();
+            var listaVm = _mapper.Map<List<PaisListVm>>(lista);
+
+            page = (page ?? 1);
+            pageSize = (pageSize ?? 10);
+            return View(listaVm.ToPagedList(page.Value, pageSize.Value));
         }
 
         [HttpGet]
